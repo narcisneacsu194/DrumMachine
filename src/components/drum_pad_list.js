@@ -59,19 +59,46 @@ class DrumPadList extends Component {
   }
 
   render(){
-    const drumPadItems = _.map(PADS, padElem =>{
-        return <li className="list-group-name"><DrumPad letter={padElem.letter} url={padElem.url}/></li>;
+    let count = 0;
+    let countCount = 0;
+    const drumPadItems = _.map(PADS, padElem => {
+        count++;
+        countCount++;
+
+        if(countCount === 1){
+          return (
+            <div className="row">
+            <DrumPad letter={padElem.letter} url={padElem.url}/>
+          );
+        }
+
+        if(count > 3){
+          count = 1;
+          return (</div><div className="row"><DrumPad letter={padElem.letter} url={padElem.url}/>
+          );
+        }
+
+        if(countCount === 9){
+            return (
+              <DrumPad letter={padElem.letter} url={padElem.url}/>
+              </div>
+            );
+        }
+
+        return <DrumPad letter={padElem.letter} url={padElem.url}/>;
     });
 
     return (
-      <div>
-        <ul className="list-group">
-          {drumPadItems}
-        </ul>
-        <KeyboardEventHandler
-        handleKeys={['q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c']}
+      <div className="row content-left">
+      <div className="col-md-6">
+        {drumPadItems}
+      </div>
+
+
+      <KeyboardEventHandler handleKeys={['q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c']}
         onKeyEvent={(key, e) => this.playAudio(key)} />
       </div>
+
     );
   }
 };

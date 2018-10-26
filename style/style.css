@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Russo+One');
+
 body{
+  font-family: Russo One !important;
   background-color: gray !important;
 }
 
@@ -14,4 +17,22 @@ body{
   max-width:100%;
   max-height:100%;
   overflow:auto;
+}
+
+button{
+  background-color: grey !important;
+  color: black !important;
+  padding: 20px 30px !important;
+  margin: 5px 10px !important;
+  width: 75px !important;
+  box-shadow: 3px 3px 4px #000000 !important;
+}
+
+button:active{
+  background-color: orange !important;
+  box-shadow: none !important;
+}
+
+.content-left{
+  margin-top: 10%;
 }
