@@ -6,8 +6,8 @@ export default class DrumMachine extends Component{
     const variable = 50;
     return (
     <div id="drum-machine" className="container">
-    <div className="row newRow">
-      <DrumPadList/>
+    <div className="row">
+      <DrumPadList />
       <Display/>
     </div>
     </div>);

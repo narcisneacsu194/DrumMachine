@@ -24,7 +24,7 @@ class DrumPadList extends Component {
 
   resetButtonCss(key){
     let elem = document.getElementById(key.toUpperCase());
-    elem.setAttribute('style', 'background-color: grey !important; box-shadow: 3px 3px 4px #000000 !important');
+    elem.setAttribute('style', 'background-color: grey box-shadow: 3px 3px 4px #000000');
   }
 
   render(){
@@ -41,7 +41,7 @@ class DrumPadList extends Component {
   </div>);
     };
     return (
-      <div className="col-md-6">
+      <div className="col-md-6 newRow">
         {drumPadItems()}
         <KeyboardEventHandler handleKeys={['q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c']}
           onKeyEvent={(key, event) => this.playAudio(key)} handleEventType="keydown"/>
