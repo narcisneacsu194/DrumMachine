@@ -28,11 +28,24 @@ button{
   box-shadow: 3px 3px 4px #000000 !important;
 }
 
-button:active{
+button:focus{
   background-color: orange !important;
   box-shadow: none !important;
 }
 
-.content-left{
-  margin-top: 10%;
+.newRow{
+  margin-top: 50px !important;
+}
+
+.content-right{
+  height: 230px;
+}
+
+#message{
+  background-color: grey;
+  color: black;
+  text-align: center;
+  padding: 30px;
+  margin-top: 26%;
+  margin-left: 5%;
 }

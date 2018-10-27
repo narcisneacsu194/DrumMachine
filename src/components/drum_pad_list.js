@@ -1,106 +1,59 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setLastPressedButton } from '../actions/index';
 import DrumPad from './drum_pad';
-const PADS = {
-  q: {
-    label: "Heater 1",
-    letter: "Q",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3"
-  },
-  w: {
-    label: "Heater 2",
-    letter: "W",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3"
-  },
-  e: {
-    label: "Heater 3",
-    letter: "E",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3"
-  },
-  a: {
-    label: "Heater 4",
-    letter: "A",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3"
-  },
-  s: {
-    label: "Clap",
-    letter: "S",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3"
-  },
-  d: {
-    label: "Open HH",
-    letter: "D",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3"
-  },
-  z: {
-    label: "Kick n' Hat",
-    letter: "Z",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3"
-  },
-  x: {
-    label: "Kick",
-    letter: "X",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3"
-  },
-  c: {
-    label: "Closed HH",
-    letter: "C",
-    url: "https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3"
-  }
-};
+import { PADS } from '../constants/pads';
 
 class DrumPadList extends Component {
+  constructor(props){
+    super(props);
+
+    this.playAudio = this.playAudio.bind(this);
+  }
 
   playAudio(key){
-    const url = PADS[key].url;
-    const aud = new Audio(url);
-    aud.play();
+    let elem = document.getElementById(key.toUpperCase());
+    elem.setAttribute('style',
+     'background-color: orange !important; box-shadow: none !important');
+    elem.click();
+    this.props.setLastPressedButton(PADS[key].label);
+  }
+
+  resetButtonCss(key){
+    let elem = document.getElementById(key.toUpperCase());
+    elem.setAttribute('style', 'background-color: grey !important; box-shadow: 3px 3px 4px #000000 !important');
   }
 
   render(){
-    let count = 0;
-    let countCount = 0;
-    const drumPadItems = _.map(PADS, padElem => {
-        count++;
-        countCount++;
-
-        if(countCount === 1){
-          return (
-            <div className="row">
-            <DrumPad letter={padElem.letter} url={padElem.url}/>
-          );
-        }
-
-        if(count > 3){
-          count = 1;
-          return (</div><div className="row"><DrumPad letter={padElem.letter} url={padElem.url}/>
-          );
-        }
-
-        if(countCount === 9){
-            return (
-              <DrumPad letter={padElem.letter} url={padElem.url}/>
-              </div>
-            );
-        }
-
-        return <DrumPad letter={padElem.letter} url={padElem.url}/>;
-    });
-
+    const drumPadItems = () => {
+      return (<div className="row">
+  {
+      Object.values(PADS)
+        .map(padElem => <DrumPad
+          letter={padElem.letter}
+          url={padElem.url}
+          label={padElem.label}
+          key={padElem.letter} />)
+  }
+  </div>);
+    };
     return (
-      <div className="row content-left">
       <div className="col-md-6">
-        {drumPadItems}
+        {drumPadItems()}
+        <KeyboardEventHandler handleKeys={['q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c']}
+          onKeyEvent={(key, event) => this.playAudio(key)} handleEventType="keydown"/>
+          <KeyboardEventHandler handleKeys={['q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c']}
+            onKeyEvent={(key, event) => this.resetButtonCss(key)} handleEventType="keyup"/>
       </div>
-
-
-      <KeyboardEventHandler handleKeys={['q', 'w', 'e', 'a', 's', 'd', 'z', 'x', 'c']}
-        onKeyEvent={(key, e) => this.playAudio(key)} />
-      </div>
-
     );
   }
 };
 
-export default DrumPadList;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({ setLastPressedButton }, dispatch);
+}
+
+export default connect(null, { setLastPressedButton })(DrumPadList);
