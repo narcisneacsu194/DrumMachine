@@ -13,5 +13,4 @@ You can then access the application with any browser, using the following URL:
 
 ```
 localhost:8080
-
 ```
