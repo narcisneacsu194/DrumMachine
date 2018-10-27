@@ -3,7 +3,7 @@
 ### Installation steps
 
 ```
-> git clone https://github.com/narcisneacsu194/DrumMachine.git
+> git clone git@github.com:narcisneacsu194/DrumMachine.git
 > cd DrumMachine
 > npm install
 > npm start
